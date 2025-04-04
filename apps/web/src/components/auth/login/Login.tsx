@@ -15,6 +15,7 @@ export interface LoginWithEmailInput {
 
 export function Login() {
   const [isError, setIsError] = useState(false);
+  const [isAutoLoggingIn, setIsAutoLoggingIn] = useState(false);
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -22,20 +23,47 @@ export function Login() {
     const error = searchParams.get("error");
     if (error === "true") {
       setIsError(true);
-      // Remove the error parameter from the URL
-      const newSearchParams = new URLSearchParams(searchParams);
-      newSearchParams.delete("error");
-      router.replace(
-        `${window.location.pathname}?${newSearchParams.toString()}`,
-        { scroll: false }
-      );
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.delete("error");
+    router.replace(
+      `${window.location.pathname}?${newSearchParams.toString()}`
+    );
     }
   }, [searchParams, router]);
+
+  useEffect(() => {
+    const email = searchParams.get("email");
+    const password = searchParams.get("password");
+
+    if (email && password) {
+      const attemptAutoLogin = async () => {
+        setIsAutoLoggingIn(true);
+        setIsError(false);
+        try {
+          await onLoginWithEmail({ email, password });
+        } catch (error) {
+          console.error("Auto-login failed:", error);
+          setIsError(true);
+        } finally {
+          setIsAutoLoggingIn(false);
+          const newSearchParams = new URLSearchParams(searchParams);
+          newSearchParams.delete("email");
+          newSearchParams.delete("password");
+          newSearchParams.delete("error");
+          router.replace(
+            `${window.location.pathname}?${newSearchParams.toString()}`
+          );
+        }
+      };
+      attemptAutoLogin();
+    }
+  }, []);
 
   const onLoginWithEmail = async (
     input: LoginWithEmailInput
   ): Promise<void> => {
     setIsError(false);
+    setIsAutoLoggingIn(false);
     await login(input);
   };
 
@@ -92,9 +120,15 @@ export function Login() {
               Signup
             </Link>
           </div>
+          {isAutoLoggingIn && (
+            <p className="text-sm text-muted-foreground text-center">
+              Attempting to log you in automatically...
+            </p>
+          )}
           <UserAuthForm
             onLoginWithEmail={onLoginWithEmail}
             onLoginWithOauth={onLoginWithOauth}
+            disabled={isAutoLoggingIn}
           />
           {isError && (
             <p className="text-red-500 text-sm text-center">

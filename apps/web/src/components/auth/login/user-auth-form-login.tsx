@@ -14,12 +14,14 @@ import { PasswordInput } from "../../ui/password-input";
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
   onLoginWithEmail: (input: LoginWithEmailInput) => Promise<void>;
   onLoginWithOauth: (provider: "google" | "github") => Promise<void>;
+  disabled?: boolean;
 }
 
 export function UserAuthForm({
   className,
   onLoginWithEmail,
   onLoginWithOauth,
+  disabled = false,
   ...props
 }: UserAuthFormProps) {
   const [isEmailPasswordLoading, setEmailPasswordIsLoading] = useState(false);
@@ -31,6 +33,8 @@ export function UserAuthForm({
 
   const isLoading =
     isEmailPasswordLoading || isGoogleLoading || isGithubLoading;
+
+  const isDisabled = disabled || isLoading;
 
   async function onSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
@@ -56,7 +60,7 @@ export function UserAuthForm({
                 autoCapitalize="none"
                 autoComplete="email"
                 autoCorrect="off"
-                disabled={isLoading}
+                disabled={isDisabled}
                 value={email}
                 onChange={(e) => {
                   setEmail(e.target.value);
@@ -80,13 +84,13 @@ export function UserAuthForm({
                 id="password"
                 autoComplete="new-password"
                 autoCorrect="off"
-                disabled={isLoading}
+                disabled={isDisabled}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
           </div>
-          <Button disabled={isLoading}>
+          <Button disabled={isDisabled}>
             {isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}
@@ -112,7 +116,7 @@ export function UserAuthForm({
         }}
         variant="outline"
         type="button"
-        disabled={isLoading}
+        disabled={isDisabled}
       >
         {isLoading ? (
           <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
@@ -129,7 +133,7 @@ export function UserAuthForm({
         }}
         variant="outline"
         type="button"
-        disabled={isLoading}
+        disabled={isDisabled}
       >
         {isLoading ? (
           <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
