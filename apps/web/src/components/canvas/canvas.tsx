@@ -28,12 +28,16 @@ import {
 } from "@/components/ui/resizable";
 import { CHAT_COLLAPSED_QUERY_PARAM } from "@/constants";
 import { useRouter, useSearchParams } from "next/navigation";
+import { usePostMessageCommunication } from "@/hooks/usePostMessageCommunication";
 
 export function CanvasComponent() {
   const { graphData } = useGraphContext();
   const { setModelName, setModelConfig } = useThreadContext();
   const { setArtifact, chatStarted, setChatStarted } = graphData;
   const { toast } = useToast();
+
+  const { doctorPreferences, patientData } = usePostMessageCommunication();
+
   const [isEditing, setIsEditing] = useState(false);
   const [webSearchResultsOpen, setWebSearchResultsOpen] = useState(false);
   const [chatCollapsed, setChatCollapsed] = useState(false);
@@ -53,7 +57,23 @@ export function CanvasComponent() {
       router.replace(`?${queryParams.toString()}`, { scroll: false });
     }
   }, [chatCollapsedSearchParam]);
+  
+  useEffect(() => {
+    if (!doctorPreferences?.promptInstructions) return;
 
+    // You can use the doctor's preferences to customize the AI behavior
+    // For example, you could add it to the messages or use it in the prompt
+    console.log('Doctor preferences updated:', doctorPreferences);
+  }, [doctorPreferences]);
+
+  useEffect(() => {
+    if (!patientData) return;
+
+    // You can use the patient data in your application logic
+    // For example, you could add it to the context or use it in prompts
+    console.log('Patient data updated:', patientData);
+  }, [patientData]);
+  
   const handleQuickStart = (
     type: "text" | "code",
     language?: ProgrammingLanguageOptions

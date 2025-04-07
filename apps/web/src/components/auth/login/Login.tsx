@@ -103,7 +103,7 @@ export function Login() {
             alt="LangChain Logo"
             className="rounded-full"
           />
-          Open Canvas
+          Biosense Canvas
         </div>
       </div>
       <div className="lg:p-8">

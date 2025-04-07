@@ -33,6 +33,7 @@ import { VideoAttachmentAdapter } from "../ui/assistant-ui/attachment-adapters/v
 import { useUserContext } from "@/contexts/UserContext";
 import { useThreadContext } from "@/contexts/ThreadProvider";
 import { PDFAttachmentAdapter } from "../ui/assistant-ui/attachment-adapters/pdf";
+import { addRagContext } from "@/utils/addRagContext";
 
 export interface ContentComposerChatInterfaceProps {
   switchSelectedThreadCallback: (thread: ThreadType) => void;
@@ -108,8 +109,9 @@ export function ContentComposerChatInterfaceComponent(
     }
 
     try {
+      const messageWithContext = await addRagContext(message.content[0].text);
       const humanMessage = new HumanMessage({
-        content: message.content[0].text,
+        content: messageWithContext,
         id: uuidv4(),
         additional_kwargs: {
           documents: contentDocuments,

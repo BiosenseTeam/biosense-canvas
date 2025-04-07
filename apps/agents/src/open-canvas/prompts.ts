@@ -218,14 +218,23 @@ Rules and guidelines:
 
 // ----- End text modification prompts -----
 
+// export const ROUTE_QUERY_OPTIONS_HAS_ARTIFACTS = `
+// - 'rewriteArtifact': The user has requested some sort of change, or revision to the artifact, or to write a completely new artifact independent of the current artifact. Use their recent message and the currently selected artifact (if any) to determine what to do. You should ONLY select this if the user has clearly requested a change to the artifact, otherwise you should lean towards either generating a new artifact or responding to their query.
+//   It is very important you do not edit the artifact unless clearly requested by the user.
+// - 'replyToGeneralInput': The user submitted a general input which does not require making an update, edit or generating a new artifact. This should ONLY be used if you are ABSOLUTELY sure the user does NOT want to make an edit, update or generate a new artifact.`;
+
 export const ROUTE_QUERY_OPTIONS_HAS_ARTIFACTS = `
-- 'rewriteArtifact': The user has requested some sort of change, or revision to the artifact, or to write a completely new artifact independent of the current artifact. Use their recent message and the currently selected artifact (if any) to determine what to do. You should ONLY select this if the user has clearly requested a change to the artifact, otherwise you should lean towards either generating a new artifact or responding to their query.
-  It is very important you do not edit the artifact unless clearly requested by the user.
-- 'replyToGeneralInput': The user submitted a general input which does not require making an update, edit or generating a new artifact. This should ONLY be used if you are ABSOLUTELY sure the user does NOT want to make an edit, update or generate a new artifact.`;
+- 'rewriteArtifact': The doctor has requested some sort of change or revision to the prescription. Use their recent message and the current prescription to determine what to do. You should ONLY select this if the doctor has clearly requested a change to the prescription, otherwise you should lean towards either generating a new prescription or responding to their query.
+  It is very important you do not edit the prescription unless clearly requested by the doctor.
+- 'replyToGeneralInput': The doctor has asked a question, or has submitted a general message which requires a response, but does not require updating or generating a new prescription.`;
+
+// export const ROUTE_QUERY_OPTIONS_NO_ARTIFACTS = `
+// - 'generateArtifact': The user has inputted a request which requires generating an artifact.
+// - 'replyToGeneralInput': The user submitted a general input which does not require making an update, edit or generating a new artifact. This should ONLY be used if you are ABSOLUTELY sure the user does NOT want to make an edit, update or generate a new artifact.`;
 
 export const ROUTE_QUERY_OPTIONS_NO_ARTIFACTS = `
-- 'generateArtifact': The user has inputted a request which requires generating an artifact.
-- 'replyToGeneralInput': The user submitted a general input which does not require making an update, edit or generating a new artifact. This should ONLY be used if you are ABSOLUTELY sure the user does NOT want to make an edit, update or generate a new artifact.`;
+- 'generateArtifact': The doctor has inputted a request which requires generating a prescription.
+- 'replyToGeneralInput': The doctor has asked a question, or has submitted a general message which requires a response, but does not require generating a prescription.`;
 
 export const CURRENT_ARTIFACT_PROMPT = `This artifact is the one the user is currently viewing.
 <artifact>
