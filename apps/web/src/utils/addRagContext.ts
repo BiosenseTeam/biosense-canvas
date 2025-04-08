@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useCanvasStore } from "@/store/useCanvasStore";
+import { HumanMessage } from "@langchain/core/messages";
 
 // Types for API responses
 type UserInfoResponse = any;
@@ -169,4 +170,18 @@ export async function addRagContext(message: string): Promise<string> {
   response += `<pergunta-medico>\n${message}\n</pergunta-medico>`;
 
   return response;
+}
+
+export function getOriginalMessage(message: HumanMessage): HumanMessage {
+  const messageContent = message.content;
+  if (typeof messageContent !== 'string') {
+    return message;
+  }
+
+  const regex = /<pergunta-medico>\n?(.*?)\n?<\/pergunta-medico>/s;
+  const match = messageContent.match(regex);
+  console.log("[getOriginalMessage] match", match);
+  
+  if (match) message.content = match[1];
+  return message;
 }
