@@ -373,12 +373,12 @@ function ArtifactRendererComponent(props: ArtifactRendererProps) {
           />
         )}
       </div>
-      <CustomQuickActions
+   {/*    <CustomQuickActions
         streamMessage={streamMessage}
         assistantId={selectedAssistant?.assistant_id}
         user={user}
         isTextSelected={isSelectionActive || selectedBlocks !== undefined}
-      />
+      /> */}
       {currentArtifactContent.type === "text" ? (
         <ActionsToolbar
           streamMessage={streamMessage}

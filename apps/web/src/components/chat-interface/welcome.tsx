@@ -99,7 +99,7 @@ const QuickStartButtons = (props: QuickStartButtonsProps) => {
 
   return (
     <div className="flex flex-col gap-8 items-center justify-center w-full">
-      <div className="flex flex-col gap-6">
+      {/* <div className="flex flex-col gap-6">
         <p className="text-gray-600 text-sm">Start with a blank canvas</p>
         <div className="flex flex-row gap-1 items-center justify-center w-full">
           <Button
@@ -112,11 +112,11 @@ const QuickStartButtons = (props: QuickStartButtonsProps) => {
           </Button>
           <ProgrammingLanguagesDropdown handleSubmit={handleLanguageSubmit} />
         </div>
-      </div>
+      </div> */}
       <div className="flex flex-col gap-6 mt-2 w-full">
-        <p className="text-gray-600 text-sm">or with a message</p>
+        {/* <p className="text-gray-600 text-sm">or with a message</p> */}
         {props.composer}
-        <QuickStartPrompts searchEnabled={props.searchEnabled} />
+        {/* <QuickStartPrompts searchEnabled={props.searchEnabled} /> */}
       </div>
     </div>
   );

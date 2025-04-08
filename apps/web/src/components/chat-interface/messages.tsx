@@ -27,6 +27,7 @@ import { Button } from "../ui/button";
 import { WEB_SEARCH_RESULTS_QUERY_PARAM } from "@/constants";
 import { Globe } from "lucide-react";
 import { useQueryState } from "nuqs";
+import { getOriginalMessage } from "@/utils/addRagContext";
 
 interface AssistantMessageProps {
   runId: string | undefined;
@@ -144,16 +145,20 @@ export const UserMessage: FC = () => {
   const msg = useMessage(getExternalStoreMessage<HumanMessage>);
   const humanMessage = Array.isArray(msg) ? msg[0] : msg;
 
+  console.log("[userMessage]", humanMessage);
+  const originalMessage = humanMessage ? getOriginalMessage(humanMessage) : humanMessage;
+
   if (humanMessage?.additional_kwargs?.[OC_HIDE_FROM_UI_KEY]) return null;
 
   return (
     <MessagePrimitive.Root className="grid w-full max-w-2xl auto-rows-auto grid-cols-[minmax(72px,1fr)_auto] gap-y-2 py-4">
       <ContextDocumentsUI
-        message={humanMessage}
+        message={originalMessage}
         className="col-start-2 row-start-1"
       />
       <div className="bg-muted text-foreground col-start-2 row-start-2 max-w-xl break-words rounded-3xl px-5 py-2.5">
-        <MessagePrimitive.Content />
+        {/* <MessagePrimitive.Content /> */}
+        {originalMessage?.content as any}
       </div>
     </MessagePrimitive.Root>
   );

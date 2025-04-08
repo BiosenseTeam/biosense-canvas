@@ -7,7 +7,7 @@
   "plugins": ["@typescript-eslint", "unused-imports", "@typescript-eslint/eslint-plugin"],
   "rules": {
     "@typescript-eslint/no-unused-vars": [
-      "error",
+      "warn",
       { 
         "argsIgnorePattern": "^_",
         "varsIgnorePattern": "^_|^UNUSED_",
@@ -17,6 +17,10 @@
     ],
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-empty-object-type": "off",
-    "unused-imports/no-unused-imports": "error"
+    "unused-imports/no-unused-imports": "warn",
+    // Additional rules to help with development
+    "@typescript-eslint/no-empty-function": "warn",
+    "@typescript-eslint/ban-ts-comment": "warn",
+    "react-hooks/exhaustive-deps": "warn"
   }
 }

@@ -48,7 +48,7 @@ export function ArtifactHeader(props: ArtifactHeaderProps) {
           currentArtifactIndex={props.currentArtifactContent.index}
           totalArtifactVersions={props.totalArtifactVersions}
         />
-        <ReflectionsDialog selectedAssistant={props.selectedAssistant} />
+        {/* <ReflectionsDialog selectedAssistant={props.selectedAssistant} /> */}
       </div>
     </div>
   );
