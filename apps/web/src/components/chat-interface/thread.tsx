@@ -108,7 +108,7 @@ export const Thread: FC<ThreadProps> = (props: ThreadProps) => {
             />
           )}
         </div>
-        {hasChatStarted ? (
+        {hasChatStarted && (
           <div className="flex flex-row flex-1 gap-2 items-center justify-end">
             <TooltipIconButton
               tooltip="Collapse Chat"
@@ -128,10 +128,6 @@ export const Thread: FC<ThreadProps> = (props: ThreadProps) => {
             >
               <SquarePen className="text-gray-600" />
             </TooltipIconButton>
-          </div>
-        ) : (
-          <div className="flex flex-row gap-2 items-center">
-            <ReflectionsDialog selectedAssistant={selectedAssistant} />
           </div>
         )}
       </div>
