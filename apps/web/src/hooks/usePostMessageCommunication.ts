@@ -31,8 +31,8 @@ export function usePostMessageCommunication() {
     function handleMessage(event: MessageEvent) {
       // In development, accept messages from both origins
       const allowedOrigins = process.env.NODE_ENV === 'production'
-        ? ['https://your-production-app-url.com']
-        : ['http://localhost:4200', 'http://localhost:3333'];
+        ? ['https://hml-app.biosense.me']
+        : ['http://localhost:3001', 'http://localhost:3333'];
 
       if (!allowedOrigins.includes(event.origin)) {
         console.warn('Received message from unauthorized origin:', event.origin);

@@ -16,7 +16,7 @@ let authData: AuthData | null = null;
 if (typeof window !== 'undefined') {
   window.addEventListener('message', (event) => {
     // Verify the origin of the message
-    const allowedOrigins = [process.env.NEXT_PUBLIC_MAIN_APP_URL || 'http://localhost:4200'];
+    const allowedOrigins = [process.env.NEXT_PUBLIC_MAIN_APP_URL || 'http://localhost:3001'];
     if (!allowedOrigins.includes(event.origin)) {
       console.warn('Received message from unexpected origin:', event.origin);
       return;
@@ -45,7 +45,7 @@ function requestUserData(): void {
   if (typeof window !== 'undefined' && window.parent) {
     window.parent.postMessage(
       { type: 'REQUEST_USER_DATA' },
-      process.env.NEXT_PUBLIC_MAIN_APP_URL || 'http://localhost:4200'
+      process.env.NEXT_PUBLIC_MAIN_APP_URL || 'http://localhost:3001'
     );
   }
 }
@@ -180,7 +180,6 @@ export function getOriginalMessage(message: HumanMessage): HumanMessage {
 
   const regex = /<pergunta-medico>\n?(.*?)\n?<\/pergunta-medico>/s;
   const match = messageContent.match(regex);
-  console.log("[getOriginalMessage] match", match);
   
   if (match) message.content = match[1];
   return message;
