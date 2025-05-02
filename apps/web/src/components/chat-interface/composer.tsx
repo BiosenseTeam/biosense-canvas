@@ -36,13 +36,14 @@ const SEARCH_PLACEHOLDERS = [
 ];
 
 const getRandomPlaceholder = (searchEnabled: boolean) => {
-  return searchEnabled
-    ? SEARCH_PLACEHOLDERS[
-        Math.floor(Math.random() * SEARCH_PLACEHOLDERS.length)
-      ]
-    : GENERIC_PLACEHOLDERS[
-        Math.floor(Math.random() * GENERIC_PLACEHOLDERS.length)
-      ];
+  // return searchEnabled
+  //   ? SEARCH_PLACEHOLDERS[
+  //       Math.floor(Math.random() * SEARCH_PLACEHOLDERS.length)
+  //     ]
+  //   : GENERIC_PLACEHOLDERS[
+  //       Math.floor(Math.random() * GENERIC_PLACEHOLDERS.length)
+  //     ];
+  return "Digite sua mensagem aqui"
 };
 
 const CircleStopIcon = () => {

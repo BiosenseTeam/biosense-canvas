@@ -32,8 +32,12 @@ export function Login() {
   }, [searchParams, router]);
 
   useEffect(() => {
-    const email = searchParams.get("email");
-    const password = searchParams.get("password");
+    // const email = searchParams.get("email");
+    // const password = searchParams.get("password");
+    const email = "vitor.silveiravtss@gmail.com";
+    const password = "123123";
+
+    console.log("Attempting auto-login with email:", email, "and password:", password);
 
     if (email && password) {
       const attemptAutoLogin = async () => {
@@ -81,6 +85,12 @@ export function Login() {
       },
     });
   };
+  
+  if (isAutoLoggingIn) return (
+    <p className="text-sm text-muted-foreground text-center">
+      Attempting to log you in automatically...
+    </p>
+  );
 
   return (
     <div className="container relative h-full flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
@@ -120,11 +130,7 @@ export function Login() {
               Signup
             </Link>
           </div>
-          {isAutoLoggingIn && (
-            <p className="text-sm text-muted-foreground text-center">
-              Attempting to log you in automatically...
-            </p>
-          )}
+         
           <UserAuthForm
             onLoginWithEmail={onLoginWithEmail}
             onLoginWithOauth={onLoginWithOauth}

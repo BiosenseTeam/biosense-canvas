@@ -6,6 +6,7 @@ import { TighterText } from "../ui/header";
 import { NotebookPen } from "lucide-react";
 import { ProgrammingLanguagesDropdown } from "../ui/programming-lang-dropdown";
 import { Button } from "../ui/button";
+import { addRagContext } from "@/utils/addRagContext";
 
 const QUICK_START_PROMPTS_SEARCH = [
   "Write a market analysis of AI chip manufacturers in 2025",
@@ -57,20 +58,26 @@ interface QuickStartPromptsProps {
 const QuickStartPrompts = ({ searchEnabled }: QuickStartPromptsProps) => {
   const threadRuntime = useThreadRuntime();
 
-  const handleClick = (text: string) => {
+  const handleClick = async (text: string) => {
+    const formattedText = await addRagContext(text);
+
     threadRuntime.append({
       role: "user",
-      content: [{ type: "text", text }],
+      content: [{ type: "text", text: formattedText }],
     });
   };
 
-  const selectedPrompts = useMemo(
-    () =>
-      getRandomPrompts(
-        searchEnabled ? QUICK_START_PROMPTS_SEARCH : QUICK_START_PROMPTS
-      ),
-    [searchEnabled]
-  );
+  // const selectedPrompts = useMemo(
+  //   () =>
+  //     getRandomPrompts(
+  //       searchEnabled ? QUICK_START_PROMPTS_SEARCH : QUICK_START_PROMPTS
+  //     ),
+  //   [searchEnabled]
+  // );
+
+  const selectedPrompts = [
+    "Gere a receita para o paciente"
+  ]
 
   return (
     <div className="flex flex-col w-full gap-2">
@@ -116,7 +123,7 @@ const QuickStartButtons = (props: QuickStartButtonsProps) => {
       <div className="flex flex-col gap-6 mt-2 w-full">
         {/* <p className="text-gray-600 text-sm">or with a message</p> */}
         {props.composer}
-        {/* <QuickStartPrompts searchEnabled={props.searchEnabled} /> */}
+        <QuickStartPrompts searchEnabled={props.searchEnabled} />
       </div>
     </div>
   );
@@ -143,7 +150,7 @@ export const ThreadWelcome: FC<ThreadWelcomeProps> = (
             <AvatarFallback>LC</AvatarFallback>
           </Avatar>
           <TighterText className="mt-4 text-lg font-medium">
-            What would you like to write today?
+            O que gostaria de escrever hoje?
           </TighterText>
           <div className="mt-8 w-full">
             <QuickStartButtons

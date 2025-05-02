@@ -15,6 +15,7 @@ import { includeURLContents } from "./include-url-contents.js";
 
 function extractURLsFromLastMessage(messages: BaseMessage[]): string[] {
   const recentMessage = messages[messages.length - 1];
+  console.log("recentMessage", recentMessage);
   const recentMessageContent = getStringFromContent(recentMessage.content);
   const messageUrls = extractUrls(recentMessageContent);
   return messageUrls;
@@ -27,12 +28,19 @@ export async function generatePath(
   state: typeof OpenCanvasGraphAnnotation.State,
   config: LangGraphRunnableConfig
 ): Promise<OpenCanvasGraphReturnType> {
+  console.log("=== GENERATE PATH LOG ===");
+  console.log("Full State:", JSON.stringify(state, null, 2));
+  console.log("Config:", JSON.stringify(config, null, 2));
+
   const { _messages } = state;
+  console.log("_Messages:", JSON.stringify(_messages, null, 2));
+  
   const newMessages: BaseMessage[] = [];
   const docMessage = await convertContextDocumentToHumanMessage(
     _messages,
     config
   );
+  console.log("Doc Message:", JSON.stringify(docMessage, null, 2));
   const existingDocMessage = newMessages.find(
     (m) =>
       Array.isArray(m.content) &&
@@ -118,7 +126,9 @@ export async function generatePath(
 
   // Check if any URLs are in the latest message. If true, determine if the contents should be included
   // inline in the prompt, and if so, scrape the contents and update the prompt.
+  console.log("state._messages", state._messages);
   const messageUrls = extractURLsFromLastMessage(state._messages);
+  console.log("messageUrls", messageUrls);
   let updatedMessageWithContents: HumanMessage | undefined = undefined;
   if (messageUrls.length) {
     updatedMessageWithContents = await includeURLContents(

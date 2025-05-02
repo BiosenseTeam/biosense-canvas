@@ -58,16 +58,24 @@ export const OpenCanvasGraphAnnotation = Annotation.Root({
    */
   _messages: Annotation<BaseMessage[], Messages>({
     reducer: (state, update) => {
+      console.log("=== _MESSAGES REDUCER LOG ===");
+      console.log("Current State:", JSON.stringify(state, null, 2));
+      console.log("Update:", JSON.stringify(update, null, 2));
+
       const latestMsg = Array.isArray(update)
         ? update[update.length - 1]
         : update;
 
       if (isSummaryMessage(latestMsg)) {
+        console.log("Summary message detected, clearing state messages");
         // The state list has been updated by a summary message. Clear the existing state messages.
         return messagesStateReducer([], update);
       }
 
-      return messagesStateReducer(state, update);
+      const result = messagesStateReducer(state, update);
+      console.log("Result:", JSON.stringify(result, null, 2));
+      console.log("=== END _MESSAGES REDUCER LOG ===");
+      return result;
     },
     default: () => [],
   }),

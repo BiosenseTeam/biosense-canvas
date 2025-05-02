@@ -100,25 +100,24 @@ async function fetchContextData(userInput: string): Promise<string> {
 
 // Formatter functions
 function formatUserInfo(userInfo: any): string {
-  const { anamnese, exams } = userInfo;
+  console.log("[formatUserInfo] userInfo", userInfo);
+  const { anamnese, exams, notes } = userInfo;
   const formattedMarkers = exams
     .map((exam: any) => `${exam.name} - ${exam.value} ${exam.unit}`)
     .join("\n");
 
-  return `<anamnese>${JSON.stringify(anamnese)}</anamnese>\n\n<marcadores-sanguineos>${formattedMarkers}</marcadores-sanguineos>`;
+  return `<anamnese>${JSON.stringify(anamnese)}</anamnese>\n\n<marcadores-sanguineos>${formattedMarkers}</marcadores-sanguineos>\n\n<notes>${JSON.stringify(notes)}</notes>`;
 }
 
 const BASE_PROMPT = `
 Sua tarefa é elaborar uma receita para o paciente. Você vai interagir diretamente com o médico, e vocês irão construí-la juntos.
 Contextos serão fornecidos e delimitados pelas tags <context></context>. Você DEVE utilizar esses contextos como FONTE PRINCIPAL de conhecimento para elaborar a receita. Caso não seja possível utilizar apenas esses contextos, você pode utilizar seu conhecimento próprio.
+OBS: Esses contextos são trechos de livros, artigos e etc. Você deve analizá-los para entender o contexto e elaborar a receita.
+OBS2: Esses contextos NÃO FAZEM PARTE das INFORMAÇÕES DO PACIENTE nem da PERGUNTA DO MÉDICO.
 <formatacao-receituario>
-Gere um receituário médico contendo posologias para o paciente.
+Gere um receituário médico completo com posologias para o paciente.
 Inclua um cabeçalho com as principais informações do paciente (nome, peso, altura, etc.) e um rodapé com as informações relevantes do médico, para serem preenchidas.
-Utilize o seguinte formato para o corpo da receita:
-1- Nome da Posologia.........................................quantidade
-Ingrediente 1.................................................quantidade
-Ingrediente 2.................................................quantidade
-Ingrediente 3.................................................quantidade
+Gere uma receita estruturada de acordo com as informações fornecidas do paciente. Forneça descrições e explicações quando necessário, para que o paciente possa entender o conteúdo.
 - Instruções detalhadas sobre o modo de administração, incluindo intervalos de tempo, condições específicas e outras observações relevantes.
 - Se necessário, adicione notas sobre avaliações específicas antes ou durante o tratamento.
 Repita este formato para cada posologia adicional, numerando-as sequencialmente.
@@ -126,10 +125,11 @@ SEMPRE inclua duas linhas em branco entre cada posologia.
 </formatacao-receituario>
 Serão fornecidas as seguintes informações:
 - Anamnese
-- Resutlados de Exames
+- Resultados de Exames
 - Diagnóstico
+- Anotações do paciente feitas pelo médico
 - Pergunta do médico
-Você deve considerar a anamnese, resultados de exames e diagnostico para responder a pergunta do médico. Não considere a anamnese, resultados e diagnostico como parte da pergunta.
+Você deve considerar a anamnese, resultados de exames, diagnostico e anotações para responder a pergunta do médico. Não considere a anamnese, resultados e diagnostico, notas ou contextos como parte da pergunta.
 Você deve responder apenas a pergunta do médico, sem nenhum outro texto adicional.
 `
 
